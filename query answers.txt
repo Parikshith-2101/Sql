@@ -1,0 +1,294 @@
+1. From the above table return complete information about the employees.
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary		commission	dep_id
+63679	SANDRINE	CLERK		69062		1990-12-18	900.00		NULL		2001
+64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00		400.00		3001
+65271	WADE		SALESMAN	66928		1991-02-22	1350.00		600.00		3001
+65646	JONAS		MANAGER		68319		1991-04-02	2957.00		NULL		2001
+66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00		1500.00		3001
+66928	BLAZE		MANAGER		68319		1991-05-01	2750.00		NULL		3001
+67832	CLARE		MANAGER		68319		1991-06-09	2550.00		NULL		1001
+67858	SCARLET		ANALYST		65646		1997-04-19	3100.00		NULL		2001
+68319	KAYLING		PRESIDENT	NULL		1991-11-18	6000.00		NULL		1001
+68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00		0.00		3001
+68736	ANDRES		CLERK		67858		1997-05-23	1200.00		NULL		2001
+69000	JULIUS		CLERK		66928		1991-12-03	1050.00		NULL		3001
+69062	FRANK		ANALYST		65646		1991-12-03	3100.00		NULL		1001
+69324	MARKER		CLERK		67832		1992-01-23	1040.00		NULL		1001
+
+Query : 
+	select * from employees;
+
+2. From the table, write a SQL query to find the salaries of all employees. Return salary.
+
+salary
+900.00
+1700.00
+1350.00
+2957.00
+1350.00
+2750.00
+2550.00
+3100.00
+6000.00
+1600.00
+1200.00
+1050.00
+3100.00
+1040.00
+
+Query :
+ 	select salary from employees;
+
+3. From the table, write a SQL query to find the unique designations of the employees.Return job name.
+
+job_name
+ANALYST
+CLERK
+MANAGER
+PRESIDENT
+SALESMAN
+
+Query :
+ 	select distinct(job_name) from employees;
+
+4. From the following table, write a SQL query to list the employees’ names, 
+increase their salary by 15%, and express the number of Dollars.
+
+emp_name	salary
+SANDRINE	$ 1035
+ADELYN		$ 1955
+WADE		$ 1552
+JONAS		$ 3400
+MADDEN		$ 1552
+BLAZE		$ 3162
+CLARE		$ 2932
+SCARLET		$ 3565
+KAYLING		$ 6900
+TUCKER		$ 1840
+ANDRES		$ 1380
+JULIUS		$ 1207
+FRANK		$ 3565
+MARKER		$ 1196
+
+Query :
+ 	select emp_name ,('$ '+cast(convert(int,salary*1.15) as varchar(20))) as salary from employees;
+
+5. From the following table, write a SQL query to list the employee's name and 
+job name as a format of "Employee & Job".
+
+Employee & Job
+SANDRINE    CLERK
+ADELYN    SALESMAN
+WADE    SALESMAN
+JONAS    MANAGER
+MADDEN    SALESMAN
+BLAZE    MANAGER
+CLARE    MANAGER
+SCARLET    ANALYST
+KAYLING    PRESIDENT
+TUCKER    SALESMAN
+ANDRES    CLERK
+JULIUS    CLERK
+FRANK    ANALYST
+MARKER    CLERK
+
+Query :
+ 	select concat(emp_name,SPACE(4),job_name) as [Employee & Job] from employees;
+
+6. From the following table, write a SQL query to find those employees with a hire date in
+ the format like February 22, 1991. Return employee ID, employee name, salary, hire date.
+
+emp_id	emp_name	salary	to_char
+63679	SANDRINE	900.00	December 18,1990
+64989	ADELYN	1700.00	February 20,1991
+65271	WADE	1350.00	February 22,1991
+65646	JONAS	2957.00	April 02,1991
+66564	MADDEN	1350.00	September 28,1991
+66928	BLAZE	2750.00	May 01,1991
+67832	CLARE	2550.00	June 09,1991
+67858	SCARLET	3100.00	April 19,1997
+68319	KAYLING	6000.00	November 18,1991
+68454	TUCKER	1600.00	September 08,1991
+68736	ANDRES	1200.00	May 23,1997
+69000	JULIUS	1050.00	December 03,1991
+69062	FRANK	3100.00	December 03,1991
+69324	MARKER	1040.00	January 23,1992
+
+Query :
+ 	select emp_id,
+        emp_name,
+        salary,
+	format(hire_date,'MMMM dd,yyyy') as to_char
+	from employees;
+
+7. From the following table, write a SQL query to count the number of characters except
+ the spaces for each employee name. Return employee name length.
+
+length
+8
+6
+4
+5
+6
+5
+5
+7
+7
+6
+6
+6
+5
+6
+
+Query :
+ 	select len(trim(emp_name)) as length from employees;
+
+8. From the following table, write a SQL query to find the employee ID, salary, and
+ commission of all the employees.
+
+emp_id	salary	  commission
+63679	900.00	  NULL
+64989	1700.00	  400.00
+65271	1350.00	  600.00
+65646	2957.00	  NULL
+66564	1350.00	  1500.00
+66928	2750.00	  NULL
+67832	2550.00	  NULL
+67858	3100.00	  NULL
+68319	6000.00	  NULL
+68454	1600.00	  0.00
+68736	1200.00	  NULL
+69000	1050.00	  NULL
+69062	3100.00	  NULL
+69324	1040.00	  NULL
+
+Query :
+ 	select emp_id,salary,commission from employees;
+
+9. From the following table, write a SQL query to find those employees who do not belong
+ to the department 2001. Return complete information about the employees. (Using NOT IN)
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary		commission	dep_id
+64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00		400.00		3001
+65271	WADE		SALESMAN	66928		1991-02-22	1350.00		600.00		3001
+66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00		1500.00		3001
+66928	BLAZE		MANAGER		68319		1991-05-01	2750.00		NULL		3001
+67832	CLARE		MANAGER		68319		1991-06-09	2550.00		NULL		1001
+68319	KAYLING		PRESIDENT	NULL		1991-11-18	6000.00		NULL		1001
+68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00		0.00		3001
+69000	JULIUS		CLERK		66928		1991-12-03	1050.00		NULL		3001
+69062	FRANK		ANALYST		65646		1991-12-03	3100.00		NULL		1001
+69324	MARKER		CLERK		67832		1992-01-23	1040.00		NULL		1001
+
+Query :
+ 	select * from employees  
+	where dep_id not in (2001);
+
+10. From the following table, write a SQL query to find those employees who joined before
+ 1991. Return complete information about the employees.
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id
+63679	SANDRINE	CLERK		69062		1990-12-18	900.00	NULL		2001
+
+Query :
+ 	select * from employees  
+	where YEAR(hire_date) < ('1991');
+
+11. From the following table, write a SQL query to compute the average salary of those
+ employees who work as ‘ANALYST’. Return average salary.
+
+avg
+3100.000000
+
+Query :
+ 	select AVG(salary) as avg from employees where job_name = 'ANALYST';
+
+12. From the following table, write a SQL query to find the details of the employee ‘BLAZE’.
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id
+66928	BLAZE		MANAGER		68319		1991-05-01	2750.00	NULL		3001
+
+Query :
+ 	select * from employees where emp_name = 'BLAZE';
+
+13. From the following table, write a SQL query to find those employees whose salary
+ exceeds 3000 after giving a 25% increment. Return complete information about the
+ employees.
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id
+65646	JONAS		MANAGER		68319		1991-04-02	2957.00	NULL		2001
+66928	BLAZE		MANAGER		68319		1991-05-01	2750.00	NULL		3001
+67832	CLARE		MANAGER		68319		1991-06-09	2550.00	NULL		1001
+67858	SCARLET		ANALYST		65646		1997-04-19	3100.00	NULL		2001
+68319	KAYLING		PRESIDENT	NULL		1991-11-18	6000.00	NULL		1001
+69062	FRANK		ANALYST		65646		1991-12-03	3100.00	NULL		1001
+
+Query :
+ 	select * from employees where salary*1.25 > 3000;
+
+14. From the following table, write a SQL query to find those employees who joined in the
+ month January. Return complete information about the employees.
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id
+69324	MARKER		CLERK		67832		1992-01-23	1040.00	NULL		1001
+
+Query :
+ 	select * from employees
+	where MONTH(hire_date)='01';
+
+15. From the following table, write a SQL query to find those employees who joined before
+ 1st April 1991. Return employee ID, employee name, hire date and salary.
+
+emp_id	emp_name	hire_date	salary
+63679	SANDRINE	1990-12-18	900.00
+64989	ADELYN		1991-02-20	1700.00
+65271	WADE		1991-02-22	1350.00
+
+Query :
+ 	select emp_id,emp_name,hire_date,salary from employees
+	where hire_date < '1991-04-01';
+
+16. From the following table, write a SQL query to find the name and salary of the employee
+ FRANK.
+
+emp_name	salary
+FRANK		3100.00
+
+Query :
+ 	select emp_name,salary from employees
+	where emp_name = 'FRANK';
+
+17. From the following table, write a SQL query to list all the employees except PRESIDENT
+ and MANAGERinascending order of salaries. Return complete information about the
+ employees. (Using Order By)
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary		commission	dep_id
+63679	SANDRINE	CLERK		69062		1990-12-18	900.00		NULL		2001
+69324	MARKER		CLERK		67832		1992-01-23	1040.00		NULL		1001
+69000	JULIUS		CLERK		66928		1991-12-03	1050.00		NULL		3001
+68736	ANDRES		CLERK		67858		1997-05-23	1200.00		NULL		2001
+65271	WADE		SALESMAN	66928		1991-02-22	1350.00		600.00		3001
+66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00		1500.00		3001
+68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00		0.00		3001
+64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00		400.00		3001
+67858	SCARLET		ANALYST		65646		1997-04-19	3100.00		NULL		2001
+69062	FRANK		ANALYST		65646		1991-12-03	3100.00		NULL		1001
+
+Query :
+ 	select * from employees
+	where job_name not in('PRESIDENT','MANAGER')
+	order by salary asc;
+
+ 18. From the following table, write a SQL query to find the highest salary. Return the
+ highest salary.
+
+max
+6000.00
+
+Query :
+ 	select max(salary) as max from employees;
+
+19. From the table, write a SQL query to find the average salary and average total
+ remuneration (salary and commission) for each type of job. Return name, average salary
+ and average total remuneration. (Using GROUP BY)
