@@ -458,9 +458,53 @@ Query :
  ‘President’,’Manager’,’Analyst’ jobs and ‘Employee Level’- label name for ‘Salesman’,’Clerk’ job
  names.
 
-
+job_name	labelname
+CLERK		Employee Level
+SALESMAN	Employee Level
+SALESMAN	Employee Level
+MANAGER		Management Level
+SALESMAN	Employee Level
+MANAGER		Management Level
+MANAGER		Management Level
+ANALYST		Management Level
+PRESIDENT	Management Level
+SALESMAN	Employee Level
+CLERK		Employee Level
+CLERK		Employee Level
+ANALYST		Management Level
+CLERK		Employee Level
 
 Query :
- 	select job_name,AVG(salary) as 'avg' , AVG(salary+commission) as 'avg' 
-	from employees
-	group by job_name;
+	select
+    	job_name,
+    	case 
+        when job_name in ('President', 'Manager', 'Analyst') then 'Management Level'
+        when job_name in ('Salesman', 'Clerk') then 'Employee Level'
+    	end as labelname
+	from 
+    	employees;
+
+27. Update commission field to 650.00 for job name titled as “analyst” in “employee” table
+using “Exist” clauses.
+
+
+emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id	gender
+63679	SANDRINE	CLERK		69062		1990-12-18	900.00	NULL		2001	female
+64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00	400.00		3001	female
+65271	WADE		SALESMAN	66928		1991-02-22	1350.00	600.00		3001	male
+65646	JONAS		MANAGER		68319		1991-04-02	2957.00	NULL		2001	female
+66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00	1500.00		3001	male
+66928	BLAZE		MANAGER		68319		1991-05-01	2750.00	NULL		3001	male
+67832	CLARE		MANAGER		68319		1991-06-09	2550.00	NULL		1001	female
+67858	SCARLET		ANALYST		65646		1997-04-19	3100.00	650.00		2001	female
+68319	KAYLING		PRESIDENT	NULL		1991-11-18	6000.00	NULL		1001	male
+68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00	0.00		3001	male
+68736	ANDRES		CLERK		67858		1997-05-23	1200.00	NULL		2001	male
+69000	JULIUS		CLERK		66928		1991-12-03	1050.00	NULL		3001	male
+69062	FRANK		ANALYST		65646		1991-12-03	3100.00	650.00		1001	male
+69324	MARKER		CLERK		67832		1992-01-23	1040.00	NULL		1001	male
+
+Query :
+	update employees set commission = 650
+	where exists
+	(select emp_id from employees dummy where employees.job_name='analyst');
